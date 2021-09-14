@@ -1,7 +1,6 @@
 // Assignment code here
 // Array of special characters to be included in password
-var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'
-];
+var specialCharacters = ['@', '%', '+', '\\', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 // Array of numeric characters to be included in password
 var numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 // Array of lowercase characters to be included in password
@@ -11,14 +10,15 @@ var lowerCasedCharacters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k
 var upperCasedCharacters = [
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ];
+var passwordHolder=[];
+
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
 function getPasswordOptions() {
   // Variable to store length of password from user input
-  var length = parseInt(
-    prompt('How many characters would you like your password to contain?')
-  );
+  var length = parseInt(prompt('How many characters would you like your password to contain?'));
+
   // Conditional statement to check if password length is a number. Prompts end if this evaluates false
   if (Number.isNaN(length)) {
     alert('Password length must be provided as a number');
@@ -35,19 +35,60 @@ function getPasswordOptions() {
     return null;
   }
   // Variable to store boolean regarding the inclusion of special characters
-  var hasSpecialCharacters = confirm(
-    'Click OK to confirm including special characters.'
-  );
+  var hasSpecialCharacters;
+    hasSpecialCharacters= confirm("Do you want special characters?");
+
   // Variable to store boolean regarding the inclusion of numeric characters
+  var hasNumericCharacters;
+  hasNumericCharacters= confirm("Do you want numeric characters?");
+
   // Variable to store boolean regarding the inclusion of lowercase characters
+  var hasLowercaseCharacters;
+    hasLowercaseCharacters= confirm("Do you want lowercase characters?");
+
   // Variable to store boolean regarding the inclusion of uppercase characters
+  var hasUppercaseCharacters;
+   hasUppercaseCharacters= confirm("Do you want uppercase characters?");
+
   // Conditional statement to check if user does not include any types of characters. Password generator ends if all four variables evaluate to false
+  if (!hasSpecialCharacters && !hasNumericCharacters && !hasLowercaseCharacters && !hasUppercaseCharacters ){
+    alert("No selections made, generator will now end!");
+  }
+
   // Object to store user input then return that object
 
 
+if (hasSpecialCharacters){
+    passwordHolder= passwordHolder.concat(specialCharacters);
+};
+
+if(hasNumericCharacters){
+  passwordHolder= passwordHolder.concat(numericCharacters);
+}
+
+if(hasUppercaseCharacters){
+  passwordHolder= passwordHolder.concat(upperCasedCharacters);
+
+}
+if (hasLowercaseCharacters){
+  passwordHolder= passwordHolder.concat(lowerCasedCharacters);
+}
+
+var execution = [];
+
+var newPassword = [];
+
+for (var i = 0; i < length; i++) {
+    execution = passwordHolder[Math.floor(Math.random() * passwordHolder.length)];
+    newPassword.push(execution);
+}
+  return newPassword.join('');
+}
+
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var password = getPasswordOptions();
+
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
@@ -55,4 +96,7 @@ function writePassword() {
 }
 
 // Add event listener to generate button
+
+
 generateBtn.addEventListener("click", writePassword);
+
